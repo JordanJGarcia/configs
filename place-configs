@@ -4,6 +4,6 @@ cp ./.bash_profile /home/$(whoami)/
 cp ./.vimrc /home/$(whoami)/
 cp ./.gitconfig /home/$(whoami)/
 
-ln -s ~/.bash_profile ~/.bashrc
+ln -s /home/$(whoami)/.bash_profile /home/$(whoami)/.bashrc
 
 echo "run '. ~/.bash_profile' for changes to take effect"
