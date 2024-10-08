@@ -84,9 +84,14 @@ sync_pkgs()
 # used to place my public key on a remote node
 sync_key()
 {
-    mypubkey="/home/jordan/.ssh/id_25119.pub"
+    mypubkey="$(find /home/$(whoami)/.ssh/ -name "*.pub" 2>/dev/null)"
 
-    if [ $# -gt 2 ]; then
+    if [[ -z $mypubkey ]]; then
+        echo "no key found" 1>&2
+        exit 1
+    fi
+
+    if [ $# -gt 2 || $# -lt 1 ]; then
         echo "Usage: sync_key server [user]" 1>&2
         return
     elif [ $# -eq 2 ]; then
@@ -122,11 +127,11 @@ show_exit_status()
     [[ $1 == "0" ]] && printf -- "$fgreen \u2714" || printf -- "$fred \u2718";
 }
 
+
 # mc related
 if [ -f /usr/lib/mc/mc.sh ]; then
     . /usr/lib/mc/mc.sh
 fi
-
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
