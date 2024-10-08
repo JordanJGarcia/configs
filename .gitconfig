@@ -14,6 +14,6 @@
     unmerged = branch --no-merged
     cv = commit -v
     pushtags = push github --tags
-    pushanntags = push origin --follow-tags
+    pushanntags = push github --follow-tags
 [commit]
 	verbose = true
