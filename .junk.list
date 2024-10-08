@@ -1,0 +1,1 @@
+deb [trusted=true] file:/root/packages/ ./

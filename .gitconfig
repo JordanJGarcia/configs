@@ -1,0 +1,19 @@
+[user]
+	name = Jordan Garcia
+	email = j.joseph_g@yahoo.com
+[core]
+	editor = vim
+[alias]
+	lp = log --patch --graph -3 --pretty=format:\"%C(34)%H  -  %C(189)%p  %C(6)%d%n%C(136)%an %Creset-  %C(117)%ae %Creset-  %C(89)%ad%n%C(13)%s%Creset%n%n\"
+    l = log -15 --pretty=format:\"%h %Creset- %C(130)%p %Creset- %C(25)%an %Creset: %C(22)[%ch] %C(89)%s %C(18)%d\"
+    recommit = commit --amend -v
+    unstage = restore --staged
+    last = log --oneline --decorate
+    lastg = log --oneline --decorate --graph --all
+    merged = branch --merged
+    unmerged = branch --no-merged
+    cv = commit -v
+    pushtags = push github --tags
+    pushanntags = push origin --follow-tags
+[commit]
+	verbose = true
