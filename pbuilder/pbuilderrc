@@ -1,0 +1,47 @@
+#! /bin/bash
+
+# pbuilder configuration - last updated 8/21/2025
+
+umask 0022
+
+if [[ -z $DIST ]]; then
+    echo "\$DIST must be set" 1>&2
+    exit 1
+fi
+
+ARCH="amd64"
+NAME="${DIST}-${ARCH}"
+COMPONENTS="main restricted universe multiverse"
+DEBOOTSTRAPOPTS=(       \
+    "--arch=${arch}"    \
+    "--force-check-gpg" \
+    "--no-merged-usr"   \
+    "--variant=buildd"
+)
+COMPRESSPROG="xz -9"
+BASETGZ="/var/cache/pbuilder/base-${NAME}.tar.xz"
+BASEPATH="/var/cache/pbuilder/base-${NAME}.cow"
+DISTRIBUTION="$DIST"
+BUILDRESULT="/var/cache/pbuilder/${NAME}/result"
+APTCACHE=""
+BUILDPLACE="/var/cache/pbuilder/build"
+ALLOWUNTRUSTED="no"
+DEBBUILDOPTS="-i -b"
+SIGN="${DEBEMAIL}"
+LOGLEVEL="W"
+USECOLORS="auto"
+EXTRAPACKAGES=${EXTRAPACKAGES}${EXTRAPACKAGES:+" "}"eatmydata"
+EATMYDATA="yes"
+CCACHEDIR="/var/cache/pbuilder/ccache"
+AUTO_DEBSIGN="no"
+AUTOCLEANAPTCACHE="yes"
+PDEBUILD_PBUILDER="cowbuilder"
+HOOKDIR="/usr/lib/pbuilder/hooks/"
+USENETWORK=${ENABLE_NETWORKING:=no} # buildd as no network, best to keep this off
+export DEBIAN_FRONTENT="noninteractive"
+MIRRORSITE="$(grep URIs /etc/apt/sources.list.d/ubuntu.sources | head -1 | awk '{print $2}')"
+
+if [ -n "${DEPS}" ]; then
+    export DEPSBASE=/var/cache/pbuilder/${NAME}/deps
+    BINDBOUNDS=${DEPSBASE}
+fi
