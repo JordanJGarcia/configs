@@ -1,0 +1,7 @@
+#! /bin/bash
+
+case $DISTRIBUTION in
+    xenial*|focal*|jammy*)
+        [[ $(dpkg --print-architecture 2>/dev/null) == "amd64" ]] && dpkg --add-architecture i386
+        ;;
+esac

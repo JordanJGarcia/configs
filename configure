@@ -1,0 +1,56 @@
+#! /bin/bash
+
+yellow="\033[3;33m"
+green="\033[3;32m"
+red="\033[3;91m"
+default="\033[0m"
+
+if [[ "$EUID" -ne 0 ]]; then
+    echo "must be root or use sudo" 1>&2
+    exit 1
+fi
+
+if [[ $# -ne 1 ]]; then
+    printf "usage: ./$(basename ${0}) <user>\n" 1>&2
+    exit 1
+else
+    if ! getent passwd $1 &>/dev/null; then
+        printf "${red}ERROR${default} user ${1} does not exist\n" 1>&2
+        exit 1
+    fi
+    user="${1}"
+fi
+
+apt-get update #&>/dev/null
+apt-get --yes install pbuilder cowbuilder && printf "${green} packages have been installed${default}\n"
+
+for f in $(ls -A ./home/); do
+    cp ./home/${f} /home/${user}/
+done
+
+# setup bash profile
+sudo -u "${user}" rm -f /home/${user}/.bashrc || exit 1
+sudo -u "${user}" ln -s /home/${user}/.bash_profile /home/${user}/.bashrc
+
+printf "${green} home directory setup complete, be sure to source them or open new terminal${default}\n"
+
+# setup pbuilder
+mkdir -p /usr/lib/pbuilder/hooks
+cp ./pbuilder/pbuilderrc /etc/
+cp ./pbuilder/hooks/* /usr/lib/pbuilder/hooks/
+
+printf "${green} pbuilder setup complete${default}\n"
+
+# setup git, this works because the invoked login shell has .bash_profile loaded
+sudo -u "${user}" bash -l -c 'git config --global user.name $DEBFULLNAME'
+sudo -u "${user}" bash -l -c 'git config --global user.email $DEBEMAIL'
+
+printf "${green} git name/email configured${default}\n"
+
+# setup apt
+cp ./apt/* /etc/apt/sources.list.d/
+apt-get update #&>/dev/null
+
+printf "${green} apt setup complete${default}\n"
+
+printf "\n${yellow} Now you need to build and install 'package-build-tools'${default}\n"

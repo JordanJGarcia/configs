@@ -12,7 +12,7 @@ default="\[\e[0m\]"
 clr="\001\033[00\002"
 
 # prompt
-export PS1="\n${blue}[\w]\n${default}[${red}\u${blue} - ${red}\d${blue}]\$(show_exit_status \$?)${default}${yellow}\$(show_git_data) $ ${default}"
+export PS1="\n${blue}[\w]\n${default}[${red}\u${blue} - ${red}\d${blue} - ${red}\H${blue}]\$(show_exit_status \$?)${default}${yellow}\$(show_git_data) $ ${default}"
 
 # path
 export PATH="${PATH}:/usr/sbin:/sbin:/usr/local/sbin"
@@ -55,7 +55,7 @@ alias gd='git diff'
 alias python='python3'
 
 # used to navigate to the appropriate build dir
-build_dir()
+bd()
 {
     # usage check
     if [[ $# -ne 1 ]]; then
@@ -81,28 +81,6 @@ sync_pkgs()
     ssh root@${1} "(cd /root/packages; apt-ftparchive packages . > Packages; apt-ftparchive release . > Release); apt-get update"
 }
 
-# used to place my public key on a remote node
-sync_key()
-{
-    mypubkey="$(find /home/$(whoami)/.ssh/ -name "*.pub" 2>/dev/null)"
-
-    if [[ -z $mypubkey ]]; then
-        echo "no key found" 1>&2
-        exit 1
-    fi
-
-    if [ $# -gt 2 || $# -lt 1 ]; then
-        echo "Usage: sync_key server [user]" 1>&2
-        return
-    elif [ $# -eq 2 ]; then
-        ssh-copy-id -i ${mypubkey} ${2}@${1}
-    else
-        ssh-copy-id -i ${mypubkey} ${1}
-    fi
-}
-
-
-##### Functions for my prompt #####
 
 # show git branch currently on
 show_git_data()
