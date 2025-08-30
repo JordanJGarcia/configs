@@ -12,7 +12,7 @@ default="\[\e[0m\]"
 clr="\001\033[00\002"
 
 # prompt
-export PS1="\n${blue}[\w]\n${default}[${red}\u${blue} - ${red}\d${blue}]\$(show_exit_status \$?)${default}${yellow}\$(show_git_data) $ ${default}"
+export PS1="\n${blue}[\w]\n${default}[${red}\u${blue} - ${red}\d${blue} - ${red}\H${blue}]\$(show_exit_status \$?)${default}${yellow}\$(show_git_data) $ ${default}"
 
 # path
 export PATH="${PATH}:/usr/sbin:/sbin:/usr/local/sbin"
