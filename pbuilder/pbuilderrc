@@ -13,7 +13,7 @@ ARCH="amd64"
 NAME="${DIST}-${ARCH}"
 COMPONENTS="main restricted universe multiverse"
 DEBOOTSTRAPOPTS=(       \
-    "--arch=${arch}"    \
+    "--arch=${ARCH}"    \
     "--force-check-gpg" \
     "--no-merged-usr"   \
     "--variant=buildd"
