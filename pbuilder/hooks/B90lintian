@@ -8,7 +8,7 @@ apt-get install -y "${APTGETOPT[@]}" lintian
 
 # to avoid the following warning
 # su: warning: cannot change directory to /nonexistent: No such file or directory
-usermod --home "$BUILDDIR"/*/ pbuilder
+/usr/sbin/usermod --home "$BUILDDIR"/*/ pbuilder
 
 echo "+++ lintian output +++"
 

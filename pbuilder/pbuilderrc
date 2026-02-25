@@ -30,7 +30,7 @@ DEBBUILDOPTS="-i -b"
 SIGN="${DEBEMAIL}"
 LOGLEVEL="W"
 USECOLORS="auto"
-EXTRAPACKAGES=${EXTRAPACKAGES}${EXTRAPACKAGES:+" "}"eatmydata"
+EXTRAPACKAGES=${EXTRAPACKAGES}${EXTRAPACKAGES:+" "}"eatmydata passwd"
 EATMYDATA="yes"
 CCACHEDIR="/var/cache/pbuilder/ccache"
 AUTO_DEBSIGN="no"
@@ -39,7 +39,12 @@ PDEBUILD_PBUILDER="cowbuilder"
 HOOKDIR="/usr/lib/pbuilder/hooks/"
 USENETWORK=${ENABLE_NETWORKING:=no} # buildd as no network, best to keep this off
 export DEBIAN_FRONTENT="noninteractive"
-MIRRORSITE="$(grep URIs /etc/apt/sources.list.d/ubuntu.sources | head -1 | awk '{print $2}')"
+MIRRORSITE="http://us.archive.ubuntu.com/ubuntu/"
+
+DISTRIBUTOR="$(lsb_release -i | awk '{print $NF}')"
+if [[ "$DISTRIBUTOR" = "Debian" ]]; then
+    MIRRORSITE="http://deb.debian.org/debian/"
+fi
 
 if [ -n "${DEPS}" ]; then
     export DEPSBASE=/var/cache/pbuilder/${NAME}/deps

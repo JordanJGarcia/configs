@@ -20,7 +20,9 @@ export PATH="${PATH}:/usr/sbin:/sbin:/usr/local/sbin"
 # debian packaging variables                                                                                                                                                      
 DEBEMAIL="whilenonzero+debian@pm.me"
 DEBFULLNAME="Jordan Garcia"
-export DEBEMAIL DEBFULLNAME
+EDITOR="vim"
+GPG_TTY=$(tty)
+export DEBEMAIL DEBFULLNAME EDITOR GPG_TTY
 
 # enable timestamps in history
 export HISTTIMEFORMAT="%F %T "
@@ -44,7 +46,7 @@ alias galias='git config --list | grep alias'
 alias showlog='tail -n 1000 /var/log/syslog'
 alias usage='du -hsx * | sort -rh | head -20'
 
-alias dev='cd ~/Documents/'
+alias dev='cd ~/Documents/development'
 
 alias gs='git status'
 alias gl='git l'

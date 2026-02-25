@@ -22,7 +22,7 @@ else
 fi
 
 apt-get update #&>/dev/null
-apt-get --yes install pbuilder cowbuilder vim curl && printf "${green} packages have been installed${default}\n"
+apt-get --yes install pbuilder cowbuilder vim curl debmake gdebi && printf "${green} packages have been installed${default}\n"
 
 for f in $(ls -A ./home/); do
     cp ./home/${f} /home/${user}/
@@ -52,5 +52,31 @@ cp ./apt/* /etc/apt/sources.list.d/
 apt-get update #&>/dev/null
 
 printf "${green} apt setup complete${default}\n"
+
+key=$(sudo -u $user gpg --no-tty --list-secret-keys --keyid-format LONG 2>/dev/null | grep sec | awk -F'/' '{print $2}' | cut -d ' ' -f 1)
+
+if [[ -z "$key" ]]; then
+    printf "${red} couldn't find gpg key...${default}\n" 1>&2
+
+    while true; do
+        read -p "generate gpg key? (y/n): " answer
+
+        case "$answer" in
+            y|Y)
+                sudo -u $user gpg --gen-key
+                break
+                ;;
+            n|N) break ;;
+            *) echo "must answer 'y' or 'n': " ;;
+        esac
+    done
+fi
+
+key=$(sudo -u $user gpg --no-tty --list-secret-keys --keyid-format LONG 2>/dev/null | grep sec | awk -F'/' '{print $2}' | cut -d ' ' -f 1)
+
+if [[ -n "$key" ]]; then
+    sudo -u $user git config --global user.signingkey "$key"
+    printf "${green} git signing key configured to ${key} gpg key${default}\n"
+fi
 
 printf "\n${yellow} Now you need to build and install 'package-build-tools'${default}\n"
