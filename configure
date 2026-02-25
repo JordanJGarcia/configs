@@ -22,7 +22,7 @@ else
 fi
 
 apt-get update #&>/dev/null
-apt-get --yes install pbuilder cowbuilder && printf "${green} packages have been installed${default}\n"
+apt-get --yes install pbuilder cowbuilder vim curl && printf "${green} packages have been installed${default}\n"
 
 for f in $(ls -A ./home/); do
     cp ./home/${f} /home/${user}/

@@ -18,7 +18,8 @@ set wildmode=list:longest
 set shiftwidth=4
 set tabstop=4
 set expandtab
-set smartindent
+set smarttab
+set nosmartindent
 
 " set search preferences
 hi Search cterm=NONE ctermfg=DarkGrey ctermbg=yellow

@@ -18,7 +18,7 @@ export PS1="\n${blue}[\w]\n${default}[${red}\u${blue} - ${red}\d${blue} - ${red}
 export PATH="${PATH}:/usr/sbin:/sbin:/usr/local/sbin"
 
 # debian packaging variables                                                                                                                                                      
-DEBEMAIL="j.joseph_g@yahoo.com"
+DEBEMAIL="whilenonzero+debian@pm.me"
 DEBFULLNAME="Jordan Garcia"
 export DEBEMAIL DEBFULLNAME
 
